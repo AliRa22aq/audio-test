@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       //   audioChunks.current = [];
       // };
     } catch (error) {
-      console.error('Error accessing microphone:', error);
+      alert(`Error accessing microphone: ${error}`);
     }
   };
 
