@@ -8,7 +8,7 @@ const Home: React.FC = () => {
 
   const startRecording = async () => {
     try {
-      alert(JSON.stringify(navigator))
+      alert(JSON.stringify(navigator.mediaDevices))
       
       // const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       // const mediaRecorder = new MediaRecorder(stream);
