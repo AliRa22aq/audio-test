@@ -1,45 +1,34 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 const Home: React.FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [videoURL, setVideoURL] = useState<string | null>(null);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const recordedChunks = useRef<Blob[]>([]);
+  const audioChunks = useRef<Blob[]>([]);
 
-  useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        alert(`Error accessing webcam: ${error}`);
-      }
-    };
+  const startRecording = async () => {
+    try { 
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      // const mediaRecorder = new MediaRecorder(stream);
 
-    startCamera();
-  }, []);
+      // mediaRecorderRef.current = mediaRecorder;
+      // mediaRecorderRef.current.start();
+      // setIsRecording(true);
 
-  const startRecording = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const mediaRecorder = new MediaRecorder(videoRef.current.srcObject as MediaStream);
+      // mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
+      //   audioChunks.current.push(event.data);
+      // };
 
-      mediaRecorderRef.current = mediaRecorder;
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-
-      mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
-        recordedChunks.current.push(event.data);
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        const videoBlob = new Blob(recordedChunks.current, { type: 'video/webm' });
-        const videoUrl = URL.createObjectURL(videoBlob);
-        setVideoURL(videoUrl);
-        recordedChunks.current = [];
-      };
+      // mediaRecorderRef.current.onstop = () => {
+      //   const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+      //   const audioUrl = URL.createObjectURL(audioBlob);
+      //   setAudioURL(audioUrl);
+      //   audioChunks.current = [];
+      // };
+    } catch (error) {
+      alert(`Error accessing microphone: ${error}`);
     }
   };
 
@@ -52,16 +41,14 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Video Recorder</h1>
-      <video ref={videoRef} style={{ width: '100%', maxWidth: '500px' }} autoPlay muted></video>
-      <br />
-      <button onClick={isRecording ? stopRecording : startRecording} style={{ marginTop: '20px' }}>
+      <h1>Audio Recorder</h1>
+      <button onClick={isRecording ? stopRecording : startRecording}>
         {isRecording ? 'Stop Recording' : 'Start Recording'}
       </button>
-      {videoURL && (
+      {audioURL && (
         <div style={{ marginTop: '20px' }}>
-          <video controls src={videoURL} style={{ width: '100%', maxWidth: '500px' }}></video>
-          <a href={videoURL} download="recording.webm">
+          <audio controls src={audioURL}></audio>
+          <a href={audioURL} download="recording.wav">
             <button>Download Recording</button>
           </a>
         </div>
