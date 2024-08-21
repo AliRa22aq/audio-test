@@ -9,22 +9,22 @@ const Home: React.FC = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      // const mediaRecorder = new MediaRecorder(stream);
 
-      mediaRecorderRef.current = mediaRecorder;
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
+      // mediaRecorderRef.current = mediaRecorder;
+      // mediaRecorderRef.current.start();
+      // setIsRecording(true);
 
-      mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
-        audioChunks.current.push(event.data);
-      };
+      // mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
+      //   audioChunks.current.push(event.data);
+      // };
 
-      mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        setAudioURL(audioUrl);
-        audioChunks.current = [];
-      };
+      // mediaRecorderRef.current.onstop = () => {
+      //   const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+      //   const audioUrl = URL.createObjectURL(audioBlob);
+      //   setAudioURL(audioUrl);
+      //   audioChunks.current = [];
+      // };
     } catch (error) {
       console.error('Error accessing microphone:', error);
     }
