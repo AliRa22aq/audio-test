@@ -15,7 +15,7 @@ const Home: React.FC = () => {
           videoRef.current.srcObject = stream;
         }
       } catch (error) {
-        console.error('Error accessing webcam:', error);
+        alert(`Error accessing webcam: ${error}`);
       }
     };
 
